@@ -227,11 +227,19 @@ class NeuralNetwork:
 
 # Train
 
-nn = NeuralNetwork(2, 2, 2, hidden_layer_weights=[0.15, 0.2, 0.25, 0.3], hidden_layer_bias=0.35, output_layer_weights=[0.4, 0.45, 0.5, 0.55], output_layer_bias=0.6)
+"""nn = NeuralNetwork(2, 2, 2, hidden_layer_weights=[0.15, 0.2, 0.25, 0.3], hidden_layer_bias=0.35, output_layer_weights=[0.4, 0.45, 0.5, 0.55], output_layer_bias=0.6)
 for i in range(10000):
     nn.train([0.05, 0.1], [0.01, 0.99])
     if i % 100 == 0:
-        print("Epoch:", i, " Loss: ", round(nn.calculate_total_error([[[0.05, 0.1], [0.01, 0.99]]]), 9))
+        print("Epoch:", i, " Loss: ", round(nn.calculate_total_error([[[0.05, 0.1], [0.01, 0.99]]]), 9))"""
 
 # TODO: EXERCISE: Train a network that is capable of doing the XOR
+training_examples = [([0,0], [0]), ([0,1], [1]), ([1,0], [1]), ([1,1], [0])]
+nn = NeuralNetwork(2, 4, 1, hidden_layer_weights=None, hidden_layer_bias=None, output_layer_weights=None, output_layer_bias=0.6)
+
+for i in np.arange(4000):
+    for example in training_examples:
+        nn.train(example[0], example[1])
+    if i % 25 == 0:
+        print("Epoch:", i, " Loss: ", round(np.sum((nn.calculate_total_error([[example[0], example[1]]])) for example in training_examples), 9))
 
