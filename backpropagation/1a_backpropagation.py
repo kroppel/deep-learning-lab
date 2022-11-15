@@ -47,21 +47,6 @@ class Neuron:
     def squash(self, total_net_input):
         return 1 / (1 + math.exp(-total_net_input))
 
-    # Determine how much the neuron's total input has to change to move closer to the expected output
-    #
-    # Now that we have the partial derivative of the error with respect to the output (∂E/∂yⱼ) and
-    # the derivative of the output with respect to the total net input (dyⱼ/dzⱼ) we can calculate
-    # the partial derivative of the error with respect to the total net input.
-    # This value is also known as the delta (δ) [1]
-    # δ = ∂E/∂zⱼ = ∂E/∂yⱼ * dyⱼ/dzⱼ
-    #
-    def calculate_pd_error_wrt_total_net_input(self, target_output):
-        return self.calculate_pd_error_wrt_output(target_output) * self.calculate_pd_total_net_input_wrt_input()
-
-    def calculate_error(self, target_output):
-    	# TODO: compute the loss. For this task, which loss is appropriated?
-    	raise NotImplementedError("Compute the loss here!")
-
     # The partial derivate of the error with respect to actual output then is calculated by:
     # = 2 * 0.5 * (target output - actual output) ^ (2 - 1) * -1
     # = -(target output - actual output)
@@ -74,8 +59,22 @@ class Neuron:
     # Note that the actual output of the output neuron is often written as yⱼ and target output as tⱼ so:
     # = ∂E/∂yⱼ = -(tⱼ - yⱼ)
     def calculate_pd_error_wrt_output(self, target_output):
-        # TODO: implement
-    	raise NotImplementedError()
+        return -(target_output - self.output)
+
+    # Determine how much the neuron's total input has to change to move closer to the expected output
+    #
+    # Now that we have the partial derivative of the error with respect to the output (∂E/∂yⱼ) and
+    # the derivative of the output with respect to the total net input (dyⱼ/dzⱼ) we can calculate
+    # the partial derivative of the error with respect to the total net input.
+    # This value is also known as the delta (δ) [1]
+    # δ = ∂E/∂zⱼ = ∂E/∂yⱼ * dyⱼ/dzⱼ
+    #
+    def calculate_pd_error_wrt_total_net_input(self, target_output):
+        return self.calculate_pd_error_wrt_output(target_output) * self.calculate_pd_output_wrt_total_net_input()
+
+    # Calculate the sum of the error in every neuron as the total error
+    def calculate_error(self, target_output):
+        return np.sum(1/2*np.power(target_output - self.output, 2))
 
     # The total net input into the neuron is squashed using logistic function to calculate the neuron's output:
     # yⱼ = φ = 1 / (1 + e^(-zⱼ))
@@ -84,8 +83,7 @@ class Neuron:
     # The derivative (not partial derivative since there is only one variable) of the output then is:
     # dyⱼ/dzⱼ = yⱼ * (1 - yⱼ)
     def calculate_pd_output_wrt_total_net_input(self):
-        # TODO: implement
-    	raise NotImplementedError()
+        return self.squash(self.calculate_total_net_input())
 
     # The total net input is the weighted sum of all the inputs to the neuron and their respective weights:
     # = zⱼ = netⱼ = x₁w₁ + x₂w₂ ...
