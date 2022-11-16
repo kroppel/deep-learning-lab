@@ -234,12 +234,12 @@ for i in range(10000):
         print("Epoch:", i, " Loss: ", round(nn.calculate_total_error([[[0.05, 0.1], [0.01, 0.99]]]), 9))"""
 
 # TODO: EXERCISE: Train a network that is capable of doing the XOR
-training_examples = [([0,0], [0]), ([0,1], [1]), ([1,0], [1]), ([1,1], [0])]
-nn = NeuralNetwork(2, 4, 1, hidden_layer_weights=None, hidden_layer_bias=None, output_layer_weights=None, output_layer_bias=0.6)
+training_examples = [([0,0], [0]), ([0,1], [1]), ([1,1], [0]), ([1,0], [1])]
+nn = NeuralNetwork(2, 2, 1)
 
-for i in np.arange(4000):
+for i in np.arange(2500):
     for example in training_examples:
         nn.train(example[0], example[1])
     if i % 25 == 0:
-        print("Epoch:", i, " Loss: ", round(np.sum((nn.calculate_total_error([[example[0], example[1]]])) for example in training_examples), 9))
+        print("Epoch:", i, " Loss: ", round(1/len(training_examples)*np.sum((nn.calculate_total_error([[example[0], example[1]]])) for example in training_examples), 9))
 
