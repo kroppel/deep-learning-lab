@@ -5,3 +5,4 @@ This repository contains all code written for the course
 ## Topics:
 - Linear Regression
 - Neural Networks and Backpropagation
+- Convolutional Neural Networks
