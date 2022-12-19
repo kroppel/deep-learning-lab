@@ -6,3 +6,4 @@ This repository contains all code written for the course
 - Linear Regression
 - Neural Networks and Backpropagation
 - Convolutional Neural Networks
+- Residual Blocks / ResNet
