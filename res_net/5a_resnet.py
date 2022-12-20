@@ -151,9 +151,11 @@ class Bottleneck(nn.Module):
         self.downsample = downsample
         self.stride = stride
         self.conv1 = conv1x1(inplanes, planes)
+        # self.conv1 = conv1x1(inplanes, planes, stride)
         self.bn1 = nn.BatchNorm2d(planes)
         self.ReLU = nn.ReLU()
         self.conv2 = conv3x3(planes, planes, stride)
+        # self.conv2 = conv3x3(planes, planes)
         self.bn2 = nn.BatchNorm2d(planes)
         self.conv3 = conv1x1(planes, 4*planes)
         self.bn3 = nn.BatchNorm2d(4*planes)
